@@ -28,6 +28,7 @@ export default function Coronil() {
 
 export function CameraAnimationControl() {
     const { camera } = useThree()
+    useEffect(()=>{ camera.position.y = 1.75 },[])
     const [state, setState] = useState({
         speed:0.5,
         velocityZ:0,

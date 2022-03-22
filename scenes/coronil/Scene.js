@@ -3,6 +3,9 @@ import { useLoader, useThree } from '@react-three/fiber'
 import { Box, useGLTF, Instances, Instance } from '@react-three/drei'
 import * as THREE from 'three'
 
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette, Pixelation } from '@react-three/postprocessing'
+
+
 
 export default function Scene() {
 
@@ -14,6 +17,7 @@ export default function Scene() {
 
     return (
         <>
+            <EffectsPostProcessing/>
             <ambientLight />
             <pointLight />
             <Suspense fallback={null}>
@@ -21,6 +25,18 @@ export default function Scene() {
             </Suspense>
         </>
     );
+}
+
+export function EffectsPostProcessing({}) {
+    return (
+        <EffectComposer>
+            <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
+            <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+            <Noise opacity={0.02} />
+            <Vignette eskil={false} offset={0.1} darkness={1.1} />
+            <Pixelation granularity={1.1} />
+        </EffectComposer>
+    )
 }
 
 export function Model() {
@@ -67,7 +83,7 @@ export function Tumbas({models, color}) {
     return (
         <InstancesModel objects={models}
                         color={color}
-                        material={new THREE.MeshBasicMaterial({
+                        material={new THREE.MeshStandardMaterial({
                             map: texture1,
                             normalMap: texture2
                         })} />
