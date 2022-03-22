@@ -44,24 +44,23 @@ export function Model() {
 
     return (
         <>
-            <Box />
-            {/* <primitive object={scene} /> */}
-            {/* <Tumba model={scene.children[0]} /> */}
-            <Tumbas models={tumbas} />
+            {/* <Box /> */}
+            <Tumbas models={tumbas} color='red' />
             <group name="castle">
-                <WallsCastle models={wallsCastle} />
+                <WallsCastle models={wallsCastle} color='red' />
                 <TowersCastle models={towersCastle} />
-                <TownsCenterCastle models={townsCenterCastle} />
+                <TownsCenterCastle models={townsCenterCastle} color='red' />
             </group>
             <MedievilModel object={medievilModel} />
         </>
     )
 }
 
-export function Tumbas({models}) {
+export function Tumbas({models, color}) {
     const [texture1,texture2,texture3] = useLoader(THREE.TextureLoader,["/Standard_D.jpg","/Standard_N.jpg","/Standard_S.jpg"])
     return (
         <InstancesModel objects={models}
+                        color={color}
                         material={new THREE.MeshBasicMaterial({
                             map: texture1,
                             normalMap: texture2
@@ -69,22 +68,32 @@ export function Tumbas({models}) {
     )
 }
 
-export function WallsCastle({models}) {
-    const [texture1,texture2,texture3] = useLoader(THREE.TextureLoader,["/Standard_D.jpg","/Standard_N.jpg","/Standard_S.jpg"])
+export function WallsCastle({models, color}) {
+    // const [texture1,texture2,texture3] = useLoader(THREE.TextureLoader,["/T_WallMid_diffuse.png","/T_WallMid_normal.png","/T_WallMid_roughness.png"])
     return (
-        <InstancesModel objects={models} material={new THREE.MeshBasicMaterial()} />
+        <InstancesModel objects={models} color={color} material={new THREE.MeshStandardMaterial({
+            // map: texture1,
+            // normalMap: texture2,
+            // roughnessMap: texture3
+        })} />
     )
 }
 
-export function TowersCastle({models}) {
+export function TowersCastle({models, color}) {
+    const [texture1,texture2,texture3] = useLoader(THREE.TextureLoader,["/T_WatchTower_diffuse.png","/T_WatchTower_normal.png","/T_WatchTower_roughness.png"])
+
     return (
-        <InstancesModel objects={models} material={new THREE.MeshBasicMaterial()} />
+        <InstancesModel objects={models} color={color} material={new THREE.MeshStandardMaterial({
+            map: texture1,
+            normalMap: texture2,
+            roughnessMap: texture3
+        })} />
     )
 }
 
-export function TownsCenterCastle({models}) {
+export function TownsCenterCastle({models, color}) {
     return (
-        <InstancesModel objects={models} material={new THREE.MeshBasicMaterial()} />
+        <InstancesModel objects={models} color={color} material={new THREE.MeshStandardMaterial()} />
     )
 }
 
