@@ -48,20 +48,25 @@ export function Tumbas({models}) {
         <Instances
             limit={models.length} // Optional: max amount of items (for calculating buffer size)
             range={models.length} // Optional: draw-range
+            geometry={models[0].geometry}
+            material={new THREE.MeshPhysicalMaterial({
+                map:texture1,
+                normalMap: texture2
+            })}
             >
-            <boxGeometry />
-            <meshStandardMaterial />
-            <Instance
-                color="red"
-                scale={2}
-                position={[1, 2, 3]}
-                rotation={[Math.PI / 3, 0, 0]}
-            />
+            { models.map( (model, i) => (
+                <Instance
+                    key={i}
+                    color="red"
+                    position={[model.position.x, model.position.y, model.position.z]}
+                    rotation={[model.rotation.x, model.rotation.y, model.rotation.z]}
+                    scale={[model.scale.x,model.scale.y,model.scale.z]}
+                />
+            )) }
         </Instances>
     )
 }
 
-export function Tumba({model}) {
-
-    return (<primitive object={model} />)
-}
+// export function Tumba({model}) {
+//     return (<primitive object={model} />)
+// }
