@@ -1,10 +1,16 @@
-import { Suspense, useMemo } from 'react'
-import { useLoader } from '@react-three/fiber'
+import { Suspense, useMemo, useEffect } from 'react'
+import { useLoader, useThree } from '@react-three/fiber'
 import { Box, useGLTF, Instances, Instance } from '@react-three/drei'
 import * as THREE from 'three'
 
 
 export default function Scene() {
+
+    const { scene,  } = useThree()
+    useEffect(()=>{
+        const fogColor = new THREE.Color(0x000000)
+        scene.fog = new THREE.FogExp2( fogColor, 0.1 )
+    },[]);
 
     return (
         <>
