@@ -42,7 +42,69 @@ export function Model() {
     )
 }
 
+export function Tumbas({models}) {
+    const [texture1,texture2,texture3] = useLoader(THREE.TextureLoader,["/Standard_D.jpg","/Standard_N.jpg","/Standard_S.jpg"])
+    return (
+        <InstancesModel objects={models}
+                        material={new THREE.MeshBasicMaterial({
+                            map: texture1,
+                            normalMap: texture2
+                        })} />
+    )
+}
+
 export function WallsCastle({models}) {
+    const [texture1,texture2,texture3] = useLoader(THREE.TextureLoader,["/Standard_D.jpg","/Standard_N.jpg","/Standard_S.jpg"])
+    return (
+        <InstancesModel objects={models} material={new THREE.MeshBasicMaterial()} />
+    )
+}
+
+
+
+export function InstancesModel({objects, color, ...props }) {
+    return (
+        <Instances
+            limit={objects.length} // Optional: max amount of items (for calculating buffer size)
+            range={objects.length} // Optional: draw-range
+            geometry={objects[0].geometry}
+            material={objects[0].material}
+            {...props}
+            >
+            { objects.map( (object, i) => (
+                <Instance
+                    key={i}
+                    color={color ? color : null}
+                    position={[object.position.x, object.position.y, object.position.z]}
+                    rotation={[object.rotation.x, object.rotation.y, object.rotation.z]}
+                    scale={[object.scale.x,object.scale.y,object.scale.z]}
+                />
+            )) }
+        </Instances>
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** OLD CODE 
+// export function Tumba({model}) {
+//     return (<primitive object={model} />)
+// }
+
+export function WallsCastleOld({models}) {
     const [texture1,texture2,texture3] = useLoader(THREE.TextureLoader,["/Standard_D.jpg","/Standard_N.jpg","/Standard_S.jpg"])
 
     return (
@@ -97,28 +159,5 @@ export function Tumbas({models}) {
     )
 }
 
-export function InstancesModel({objects, ...props }) {
-    return (
-        <Instances
-            limit={objects.length} // Optional: max amount of items (for calculating buffer size)
-            range={objects.length} // Optional: draw-range
-            geometry={objects[0].geometry}
-            material={objects[0].material}
-            {...props}
-            >
-            { objects.map( (object, i) => (
-                <Instance
-                    key={i}
-                    color="red"
-                    position={[object.position.x, object.position.y, object.position.z]}
-                    rotation={[object.rotation.x, object.rotation.y, object.rotation.z]}
-                    scale={[object.scale.x,object.scale.y,object.scale.z]}
-                />
-            )) }
-        </Instances>
-    )
-}
 
-// export function Tumba({model}) {
-//     return (<primitive object={model} />)
-// }
+*/
