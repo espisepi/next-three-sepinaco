@@ -20,6 +20,7 @@ export default function Scene() {
 export function Model() {
 
     const { scene } = useGLTF("/coronil-medievil.glb")
+    console.log(scene)
 
     const tumbas = useMemo(()=>{
         return scene.children.filter(child => child.name.includes("Tomb"))
@@ -27,6 +28,18 @@ export function Model() {
 
     const wallsCastle = useMemo(()=>{
         return scene.children.filter(child => child.name.includes("WallMid"))
+    },[scene])
+
+    const towersCastle = useMemo(()=>{
+        return scene.children.filter(child => child.name.includes("Tower"))
+    },[scene])
+
+    const townsCenterCastle = useMemo(()=>{
+        return scene.children.filter(child => child.name.includes("TownCenter"))
+    },[scene])
+
+    const medievilModel = useMemo(()=>{
+        return scene.children[0]
     },[scene])
 
     return (
@@ -37,7 +50,10 @@ export function Model() {
             <Tumbas models={tumbas} />
             <group name="castle">
                 <WallsCastle models={wallsCastle} />
+                <TowersCastle models={towersCastle} />
+                <TownsCenterCastle models={townsCenterCastle} />
             </group>
+            <MedievilModel object={medievilModel} />
         </>
     )
 }
@@ -57,6 +73,24 @@ export function WallsCastle({models}) {
     const [texture1,texture2,texture3] = useLoader(THREE.TextureLoader,["/Standard_D.jpg","/Standard_N.jpg","/Standard_S.jpg"])
     return (
         <InstancesModel objects={models} material={new THREE.MeshBasicMaterial()} />
+    )
+}
+
+export function TowersCastle({models}) {
+    return (
+        <InstancesModel objects={models} material={new THREE.MeshBasicMaterial()} />
+    )
+}
+
+export function TownsCenterCastle({models}) {
+    return (
+        <InstancesModel objects={models} material={new THREE.MeshBasicMaterial()} />
+    )
+}
+
+export function MedievilModel({object}) {
+    return (
+        <primitive object={object} />
     )
 }
 
