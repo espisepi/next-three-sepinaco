@@ -18,7 +18,6 @@ export default function Scene() {
     const refAmbientLight = useRef()
     useFrame(()=>{
         if(refAmbientLight.current){
-            console.log(refAmbientLight.current.position)
             refAmbientLight.current.position.set(camera.position.x,camera.position.y-1.0,camera.position.z+1.0)
         }
     })
@@ -38,8 +37,7 @@ export default function Scene() {
 export function EffectsPostProcessing({}) {
 
     const refEffectComposer = useRef()
-    console.log(refEffectComposer)
-    // const [noiseOpacity,setNoiseOpacity] = useState()
+    
     const analyser = useAnalyser('video')
 
     useFrame(()=>{
