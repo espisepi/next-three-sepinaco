@@ -1,10 +1,10 @@
-import { Suspense, useMemo, useEffect } from 'react'
-import { useLoader, useThree } from '@react-three/fiber'
+import { Suspense, useMemo, useEffect, useState, useRef } from 'react'
+import { useFrame, useLoader, useThree } from '@react-three/fiber'
 import { Box, useGLTF, Instances, Instance } from '@react-three/drei'
 import * as THREE from 'three'
-
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette, Pixelation } from '@react-three/postprocessing'
 
+import useAnalyser from '../../hooks/analyser/useAnalyser'
 
 
 export default function Scene() {
@@ -28,11 +28,34 @@ export default function Scene() {
 }
 
 export function EffectsPostProcessing({}) {
+
+    const refEffectComposer = useRef()
+    console.log(refEffectComposer)
+    // const [noiseOpacity,setNoiseOpacity] = useState()
+    const analyser = useAnalyser('video')
+
+    useFrame(()=>{
+        if(analyser && refEffectComposer.current){
+            const number = analyser.getUpdateLowerMax();
+            // console.log(refEffectComposer.current.passes[2].effects[3].blendMode.opacity.value)
+            if(number ==0){
+                refEffectComposer.current.passes[2].effects[3].blendMode.opacity.value = 0.05
+
+            } else {
+                refEffectComposer.current.passes[2].effects[3].blendMode.opacity.value = number
+
+            }
+            // analyser.update()
+            //console.log(analyser.getUpdateLowerMax())
+            // setNoiseOpacity(v=>(analyser.getUpdateLowerMax()))
+        }
+    })
+
     return (
-        <EffectComposer>
+        <EffectComposer ref={refEffectComposer}>
             <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
             <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
-            <Noise opacity={0.02} />
+            <Noise opacity={0.2} />
             <Vignette eskil={false} offset={0.1} darkness={1.1} />
             <Pixelation granularity={1.1} />
         </EffectComposer>
