@@ -9,17 +9,25 @@ import useAnalyser from '../../hooks/analyser/useAnalyser'
 
 export default function Scene() {
 
-    const { scene,  } = useThree()
+    const { scene, camera  } = useThree()
     useEffect(()=>{
         const fogColor = new THREE.Color(0x000000)
         scene.fog = new THREE.FogExp2( fogColor, 0.1 )
     },[]);
 
+    const refAmbientLight = useRef()
+    useFrame(()=>{
+        if(refAmbientLight.current){
+            console.log(refAmbientLight.current.position)
+            refAmbientLight.current.position.set(camera.position.x,camera.position.y-1.0,camera.position.z+1.0)
+        }
+    })
+
     return (
         <>
             <EffectsPostProcessing/>
-            <ambientLight />
-            <pointLight />
+            {/* <ambientLight intensity={0.02} /> */}
+            <pointLight ref={refAmbientLight} intensity={0.5} color='red' />
             <Suspense fallback={null}>
                 <Model />
             </Suspense>
