@@ -1,6 +1,6 @@
 import { Suspense, useMemo, useEffect, useState, useRef } from 'react'
 import { useFrame, useLoader, useThree } from '@react-three/fiber'
-import { Box, useGLTF, Instances, Instance } from '@react-three/drei'
+import { Box, useGLTF, Instances, Instance, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette, Pixelation } from '@react-three/postprocessing'
 
@@ -27,17 +27,36 @@ export default function Scene() {
             <EffectsPostProcessing/>
             {/* <ambientLight intensity={0.02} /> */}
             <pointLight ref={refAmbientLight} intensity={0.5} color='red' />
-            <Suspense fallback={null}>
+            <Suspense fallback={<Loading />}>
                 <Model />
             </Suspense>
         </>
     );
 }
 
+export function Loading() {
+    const refBox = useRef()
+    useFrame((state, dt)=>{
+        if(refBox.current) {
+            refBox.current.rotation.y += 1 * dt
+        }
+    })
+    return (
+        <>
+        <Box ref={refBox} position={[0,1,0]} scale={[4,1,1]}  />
+        <Html className="content" position={[0, 1.54, 0]} transform occlude>
+              <div className="wrapper">
+                <h1>Loading</h1>
+              </div>
+        </Html>
+        </>
+    )
+}
+
 export function EffectsPostProcessing({}) {
 
     const refEffectComposer = useRef()
-    
+
     const analyser = useAnalyser('video')
 
     useFrame(()=>{
