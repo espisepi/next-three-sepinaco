@@ -9,6 +9,6 @@ export default function CVCanvas({style}) {
             <Canvas style={{backgroundColor: 'black'}}>
                 <Box />
             </Canvas>
-        // </div>
+        </div>
     )
 }
