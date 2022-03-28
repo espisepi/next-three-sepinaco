@@ -34,6 +34,14 @@ export default function Scene() {
     );
 }
 
+export function SceneRaw() {
+    return (
+        <Suspense fallback={<Loading />}>
+            <Model />
+        </Suspense>
+    )
+}
+
 export function Loading() {
     const refBox = useRef()
     useFrame((state, dt)=>{

@@ -2,6 +2,10 @@ import { useEffect, useRef } from "react"
 import Script from 'next/script'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Box, Stars } from '@react-three/drei'
+import { Physics, usePlane, useBox } from '@react-three/cannon'
+
+import { SceneRaw } from '../../scenes/coronil/Scene'
+
 
 
 
@@ -51,7 +55,23 @@ export function Scene() {
         <group ref={groupRef} name="r3f-world">
             <Stars />
             <Box />
+
+            <SceneRaw />
+
+            {/* <Physics>
+                <BoxPhysics />
+            </Physics> */}
         </group>
         </>
     )
 }
+
+
+// export function BoxPhysics() {
+//     const [ref] = useBox(() => ({ mass: 1, position: [0, 5, 0], ...props }))
+//     return (
+//       <mesh ref={ref}>
+//         <boxGeometry />
+//       </mesh>
+//     )
+// }
