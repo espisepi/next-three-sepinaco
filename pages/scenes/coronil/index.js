@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Box, OrbitControls } from '@react-three/drei'
 
@@ -11,8 +11,37 @@ import  Scene  from '../../../scenes/coronil/Scene'
 
 // TODO: Seguir por aqui (InstancedMesh de Tumbas) https://codesandbox.io/s/h8o2d !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+//TODO HECHO: Play/Pause con teclado y ocultar musica 
+//TODO: Crear distintas camaras que se muevan diferentes y en diferentes sitios y se cambia la vista con el teclado
+//TODO: Las camaras que se muevan con Curve al pulsar teclado
+
+//TODO Opcional: Probar a hacer efecto optico con la imagen de dos camaras mirandose repitiendose infinitamente
+
 
 export default function Coronil() {
+
+    const videoRef = useRef()
+    useEffect(()=>{
+        if(videoRef.current) {
+            document.addEventListener('keydown', function(event){
+                console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
+                if(event.key == "ArrowUp") {
+                    // play/stop music
+                    videoRef.current.play();
+                }
+                if(event.key == "ArrowDown") {
+                    // play/stop music
+                    videoRef.current.pause();
+                }
+            })
+
+            document.addEventListener('keyup', function(event){
+                console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
+            })
+
+        }
+    },[videoRef])
+
     return (
         <>
         <h1>holimundi</h1>
@@ -21,7 +50,7 @@ export default function Coronil() {
             {/* <OrbitControls /> */}
             <CameraAnimationControl />
         </Canvas>
-        <video id="video" width="320" height="50" controls style={{position:'absolute', top:5, zIndex:5, opacity:0.8}}>
+        <video ref={videoRef} id="video" width="320" height="50" controls style={{display:'none', position:'absolute', top:5, zIndex:5, opacity:0.8}}>
             <source src="/coronil-medievil.mp3" type="audio/mp3"/>
             Your browser does not support the video tag.
         </video>
@@ -43,19 +72,19 @@ export function CameraAnimationControl() {
         document.addEventListener('keydown', function(event){
             console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
 
-            if(event.key == "ArrowUp") {
+            if(event.key == "w") {
                 setState( state => ({...state, velocityZ: -1}) )
             }
 
-            if(event.key == "ArrowDown") {
+            if(event.key == "s") {
                 setState( state => ({...state, velocityZ: 1}) )
             }
 
-            if(event.key == "ArrowLeft") {
+            if(event.key == "a") {
                 setState( state => ({...state, velocityX: -1}) )
             }
 
-            if(event.key == "ArrowRight") {
+            if(event.key == "d") {
                 setState( state => ({...state, velocityX: 1}) )
             }
 
@@ -71,19 +100,19 @@ export function CameraAnimationControl() {
         document.addEventListener('keyup', function(event){
             console.log(`Key: ${event.key} with keycode ${event.keyCode} has been pressed`);
 
-            if(event.key == "ArrowUp") {
+            if(event.key == "w") {
                 setState( state => ({...state, velocityZ: 0}) )
             }
 
-            if(event.key == "ArrowDown") {
+            if(event.key == "s") {
                 setState( state => ({...state, velocityZ: 0}) )
             }
 
-            if(event.key == "ArrowLeft") {
+            if(event.key == "a") {
                 setState( state => ({...state, velocityX: 0}) )
             }
 
-            if(event.key == "ArrowRight") {
+            if(event.key == "d") {
                 setState( state => ({...state, velocityX: 0}) )
             }
 
