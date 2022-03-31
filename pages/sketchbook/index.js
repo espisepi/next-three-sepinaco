@@ -66,7 +66,7 @@ export function Scene() {
     )
 }
 
-
+// TODO: Crear una capsula physics para el player cuya posicion se actualiza cada frame por la posicion del player y que choque tambien en el mundo r3f
 // export function BoxPhysics() {
 //     const [ref] = useBox(() => ({ mass: 1, position: [0, 5, 0], ...props }))
 //     return (
