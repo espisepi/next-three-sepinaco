@@ -59,6 +59,13 @@ export default function Coronil() {
 }
 
 
+export function AllCameras() {
+    return (
+        null
+    )
+}
+
+
 export function CameraAnimationControl() {
     const { camera } = useThree()
     useEffect(()=>{ camera.position.y = 1.75 },[])
