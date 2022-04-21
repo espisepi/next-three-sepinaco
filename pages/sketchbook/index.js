@@ -13,14 +13,15 @@ export default function Sketchbook() {
 
     return (
         <>
-        <Script src="build/sketchbook.min.js" strategy="beforeInteractive"></Script>
+        {/* <Script src="build/sketchbook.min.js" strategy="beforeInteractive"></Script>
 	    <Script  strategy="afterInteractive">
 		    const world = new Sketchbook.World('build/assets/world_v3.glb');
             window.world = world;
 	    </Script>
         <div style={{position:'absolute', top: 0, zIndex: -10}}>
             <AppCanvas />
-        </div>
+        </div> */}
+        <h1>No funciona en produccion esta pagina, por lo tanto fue comentada</h1>
         </>
     )
 }
